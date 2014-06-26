@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="CSS/leaflet.css" />
+<meta charset="UTF-8">
+<title>The Map UI</title>
+<script src="JS/leaflet.js"></script>
+<script type="text/javascript">
+	var websocket = new WebSocket(
+			"ws://localhost:8080/webSocketSample/server");
+
+	websocket.onmessage = function processMessage(message) {
+
+		var jsonData = JSON.parse(message.data);
+		if (jsonData != null) {
+			messagesTextArea.value += jsonData.message + "\n";
+
+		}
+	}
+	function sendMessage() {
+		websocket.send(messageText.value);
+		messageText.value = "";
+
+	}
+</script>
+</head>
+<body>
+
+	<div>
+		<br>
+		<br>
+		
+		<h3>Output Console</h3>
+				
+		<textarea id="messagesTextArea" rows="8" cols="80"></textarea>
+		<br>
+		<input type="text" id="messageText" size="50" /> 
+		<input id="button1" type="button" value="Connect" onclick="sendMessage();">
+
+	</div>
+
+
+</body>
+</html>
